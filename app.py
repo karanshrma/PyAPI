@@ -36,7 +36,7 @@ def home():
       <body>
         <div class="container">
           <h1>Welcome to the Flask App!</h1>
-          <p>MEOW MEOW MOEW</p>
+          <p>Enter the prompt in URL</p>
         </div>
       </body>
     </html>
