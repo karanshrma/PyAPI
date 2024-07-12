@@ -18,7 +18,7 @@ def chatResponse(messages):
 # Define a route for the URL parameter
 @app.route('/api/genai/<message>', methods=['GET'])
 def api(message):
-    msg = f"Hello, {message}!"
+    msg = f"{message}"
     answer = chatResponse(msg)
     return jsonify(answer=answer)
 
