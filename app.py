@@ -1,10 +1,31 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import google.generativeai as genai
+import signal
 
 app = Flask(__name__)
 
 # Configure the genai with your API key
 genai.configure(api_key="AIzaSyDx0LELsbJQy6m5zP8_qd5ySfoMjCk9hJo")
+
+class TimeoutException(Exception):
+    pass
+
+def timeout_handler(signum, frame):
+    raise TimeoutException
+
+@app.before_request
+def before_request():
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(30)  # Set the timeout to 30 seconds
+
+@app.after_request
+def after_request(response):
+    signal.alarm(0)  # Disable the alarm
+    return response
+
+@app.errorhandler(TimeoutException)
+def handle_timeout(error):
+    return jsonify({'error': 'Request timed out'}), 504
 
 def chatResponse(messages):
     # Create a new conversation
