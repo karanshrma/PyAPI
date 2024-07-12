@@ -43,6 +43,10 @@ def api(message):
     answer = chatResponse(msg)
     return jsonify(answer=answer)
 
+@app.route('/api/genai', methods=['GET'])
+def api_default():
+    return jsonify(error="Message parameter is missing"), 400
+
 # Default
 @app.route('/')
 def home():
