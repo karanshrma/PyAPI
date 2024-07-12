@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify
 import google.generativeai as genai
 
 app = Flask(__name__)
@@ -41,7 +41,7 @@ def home():
       </body>
     </html>
     """
-    return render_template_string(html_content)
+    return html_content, 200, {'Content-Type': 'text/html'}
 
 if __name__ == '__main__':
     app.run(debug=True)
