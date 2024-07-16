@@ -27,6 +27,11 @@ def after_request(response):
 def handle_timeout(error):
     return jsonify({'error': 'Request timed out'}), 504
 
+def remove_newlines(text):
+    # Replace '\n' and '\r' with an empty string
+    cleaned_text = text.replace('\n', '').replace('\r', '')
+    return cleaned_text
+
 def chatResponse(messages):
     # Create a new conversation
     response = genai.chat(messages=messages)
@@ -34,7 +39,10 @@ def chatResponse(messages):
     # Last contains the model's response:
     answer = response.last
 
-    return answer
+    # Clean the answer
+    cleaned_answer = remove_newlines(answer)
+
+    return cleaned_answer
 
 # Define a route for the URL parameter
 @app.route('/api/genai/<message>', methods=['GET'])
